@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record model="ir.ui.view" id="res_partner_form">
+            <field name="name">res.partner.form</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                
+                <xpath expr="//field[@name='vat']" position="after">
+                    <field name="age"/>
+                </xpath>
+                <xpath expr="//sheet/group" position="after">
+                <h1>Additional Information</h1><br></br>
+                <div class="row p-3">
+                    <group class="col">
+                        <field name="no_identitas"/>
+                        <field name="jenis_kelamin"/>
+                        <field name="nama_ayah"/>
+                        <field name="nama_ibu"/>
+                        <field name="pekerjaan"/>
+                    </group>
+
+                    <group class="col">
+                        <field name="tempat_lahir"/>                   
+                        <field name="tanggal_lahir"/>
+                        <field name="gol_darah"/>
+                        <field name="status_nikah"/>
+                        <field name="pendidikan"/>
+                    </group>
+                </div>
+               
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <template id="sale_order_template">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.internal_layout">
+                    <div class="page">
+                        <h1><center>Delivery Order</center></h1>
+                        
+                        <div class="row">
+                            <div class="col-8">
+                                <p>customer: <t t-esc="doc.partner_id.name"/> </p>
+                                <p>address: <t t-esc="doc.partner_id.street"/> </p>
+                                <p>phone: <t t-esc="doc.partner_id.phone"/> </p>
+                            
+                            </div>
+                            <div class="col-4">
+                                <p>No: <t t-esc="doc.name"/> </p>
+                                <p>Date: <t t-esc="doc.date_order"/> </p>
+
+                            </div>
+                        </div>
+                        <table class="table table-striped mt-3">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th>Product</th>
+                                    <th>QTY</th>
+                                    <th>UoM</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <t t-foreach="doc.order_line" t-as="ol">
+                                    <t t-if="ol.product_id.product_tmpl_id.bom_count>0">
+                                        <t t-foreach="ol.product_id.product_tmpl_id.bom_ids.bom_line_ids" t-as="line">
+                                            <tr >
+                                                <td><span t-field="line.product_id.name"/></td>
+                                                <td><span t-field="line.product_qty"/></td>
+                                                <td><span t-field="line.product_uom_id.name"/></td>
+                                            </tr>
+                                        </t>
+                                    </t>
+                                </t>
+                            </tbody>
+                        </table>
+
+                        <center> 
+                            <div class="border border-dark mt-5" style="width:20%">
+                                <p>Mengetahui</p><br></br>
+                                <br></br>
+                                <p>Administrator</p>
+                            </div>
+                        </center>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>

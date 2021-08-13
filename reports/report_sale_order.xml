@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="report_delivery_order" model="ir.actions.report">
+        <field name="name">Print Delivery Order</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">travel_umrah.sale_order_template</field>
+        <field name="report_file">travel_umrah.sale_order_template</field>
+        <field name="binding_model_id" ref="model_sale_order"/>
+        <field name="binding_type">report</field>
+    </record>
+
+    <record id="report_customer_invoice" model="ir.actions.report">
+        <field name="name">Print Customer Invoice</field>
+        <field name="model">sale.order</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">travel_umrah.customer_invoice_template</field>
+        <field name="report_file">travel_umrah.customer_invoice_template</field>
+        <field name="binding_model_id" ref="model_sale_order"/>
+        <field name="binding_type">report</field>
+    </record>
+</odoo>
