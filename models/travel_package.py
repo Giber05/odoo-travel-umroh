@@ -93,7 +93,6 @@ class paket_perjalanan(models.Model):
                     })
 
     def export(self):
-
         # Membuat Worksheet
         folder_title = "Jamaah lines" + "-" + str(self.date_created) + ".xlsx"
         file_data = BytesIO()
@@ -108,18 +107,8 @@ class paket_perjalanan(models.Model):
         style_bold_orange = workbook.add_format({'left': 1, 'top': 1,'right':1,'bold': True,'align':'center','fg_color': '#FF6600','font_color': 'white'})
         style_no_bold = workbook.add_format({'left': 1,'right':1,'bottom':1, })
         style_date = workbook.add_format({'left': 1, 'top': 1,'right':1,'bold': False,'align':'left','num_format': 'dd/mm/yy'})
-        # Mengumpulkan dan filter data
-        # if self.product_type == 'all':
-        #     product_line = self.env['product.product'].search([
-        #         ('sale_ok','=', self.sale_ok),
-        #         ('purchase_ok','=',self.purchase_ok),])
-        # else:
-        #     product_line = self.env['product.product'].search([
-        #         ('sale_ok','=', self.sale_ok),
-        #         ('purchase_ok','=',self.purchase_ok),
-        #         ('type','=',self.product_type),])
 
-        # Membuat Column Header
+        # Membuat Column Header Jamaah Lines
         ws.merge_range('A1:D1',  self.title + ' ' + str(self.date_created), style_bold)
         ws.set_column(1, 1, 10)
         ws.set_column(1, 2, 40)
@@ -138,41 +127,49 @@ class paket_perjalanan(models.Model):
 
         ws.write(3, 0,'NO ', style_bold_orange)
         ws.write(3, 1, 'GENDER', style_bold_orange)
-        ws.write(3, 2, 'NAMA ', style_bold_orange)
-        ws.write(3, 3, 'TEMPAT LAHIR ', style_bold_orange)
-        ws.write(3, 4, 'TANGGAL LAHIR ', style_bold_orange)
-        ws.write(3, 5, 'NO PASSPORT ', style_bold_orange)
-        ws.write(3, 6, 'PASSPORT ISSUED', style_bold_orange)
-        ws.write(3, 7, 'PASSPORT EXPIRED', style_bold_orange)
-        ws.write(3, 8, 'IMIGRASI', style_bold_orange)
-        ws.write(3, 9, 'USIA', style_bold_orange)
-        ws.write(3, 10, 'NIK', style_bold_orange)
-        ws.write(3, 11, 'ORDER', style_bold_orange)
-        ws.write(3, 12, 'ROOM TYPE', style_bold_orange)
-        ws.write(3, 13, 'ALAMAT', style_bold_orange)
+        ws.write(3, 2, 'GENDER', style_bold_orange)
+        ws.write(3, 3, 'NAMA ', style_bold_orange)
+        ws.write(3, 4, 'TEMPAT LAHIR ', style_bold_orange)
+        ws.write(3, 5, 'TANGGAL LAHIR ', style_bold_orange)
+        ws.write(3, 6, 'NO PASSPORT ', style_bold_orange)
+        ws.write(3, 7, 'PASSPORT ISSUED', style_bold_orange)
+        ws.write(3, 8, 'PASSPORT EXPIRED', style_bold_orange)
+        ws.write(3, 9, 'IMIGRASI', style_bold_orange)
+        ws.write(3, 10, 'MAHRAM', style_bold_orange)
+        ws.write(3, 11, 'USIA', style_bold_orange)
+        ws.write(3, 12, 'NIK', style_bold_orange)
+        ws.write(3, 13, 'ORDER', style_bold_orange)
+        ws.write(3, 14, 'ROOM TYPE', style_bold_orange)
+        ws.write(3, 15, 'ALAMAT', style_bold_orange)
 
         row_count = 4
         count = 1
 
-        # Mengisi data pada setiap baris & kolom
+        # Mengisi data pada setiap baris & kolom Jamaah Lines
         for peserta in self.peserta_line.partner_id:
             ws.write(row_count, 0, str(count), style_no_bold)
-            ws.write(row_count, 1,peserta.jenis_kelamin, style_no_bold)
-            ws.write(row_count, 2,peserta.name, style_no_bold)
-            ws.write(row_count, 3,peserta.tempat_lahir, style_no_bold)
-            ws.write(row_count, 4,str(peserta.tanggal_lahir), style_no_bold)
+            if peserta.jenis_kelamin == "pria":
+                title = "Mister"
+            else:
+                title = "Madam"
+            ws.write(row_count, 1,title, style_no_bold)
+            ws.write(row_count, 2,peserta.jenis_kelamin, style_no_bold)
+            ws.write(row_count, 3,peserta.name, style_no_bold)
+            ws.write(row_count, 4,peserta.tempat_lahir, style_no_bold)
+            ws.write(row_count, 5,str(peserta.tanggal_lahir), style_no_bold)
 
             #filter nomor passport
             passport_id = []
             passport_id = self.env['sale.passport.line'].search([('order_id.paket_perjalanan_id', '=',self.id),('partner_id.id','=',peserta.id),])
 
-            ws.write(row_count, 5,passport_id.nomor, style_no_bold)
-            ws.write(row_count, 6,passport_id.order_id.date_order, style_date)
-            ws.write(row_count, 7,passport_id.masa_berlaku, style_date)
-            ws.write(row_count, 8,peserta.city, style_no_bold)
-            ws.write(row_count, 9,peserta.age, style_no_bold)
-            ws.write(row_count, 10,peserta.no_identitas, style_no_bold)
-            ws.write(row_count, 11,passport_id.order_id.name, style_no_bold)
+            ws.write(row_count, 6,passport_id.nomor, style_no_bold)
+            ws.write(row_count, 7,passport_id.order_id.date_order, style_date)
+            ws.write(row_count, 8,passport_id.masa_berlaku, style_date)
+            ws.write(row_count, 9,peserta.city, style_no_bold)
+            ws.write(row_count, 10,peserta.mahram.name, style_no_bold)
+            ws.write(row_count, 11,peserta.age, style_no_bold)
+            ws.write(row_count, 12,peserta.no_identitas, style_no_bold)
+            ws.write(row_count, 13,passport_id.order_id.name, style_no_bold)
 
             if passport_id.tipe_kamar == 'd':
                 tipe_kamar = 'Double'
@@ -180,12 +177,32 @@ class paket_perjalanan(models.Model):
                 tipe_kamar = 'Triple'
             else:
                 tipe_kamar = 'Quadruple'
-            ws.write(row_count, 12,tipe_kamar, style_no_bold)
-            ws.write(row_count, 13,peserta.street, style_no_bold)
+            ws.write(row_count, 14,tipe_kamar, style_no_bold)
+            ws.write(row_count, 15,peserta.street, style_no_bold)
             # ws.write(row_count, 14,peserta.street, style_no_bold)
             count+=1
             row_count+=1
+        
+        row_count+=2
+        count = 1
 
+        # Membuat Header untuk Airlines
+        ws.write(row_count, 2, 'NO ', style_bold_orange)
+        ws.write(row_count, 3, 'AIRLINES ', style_bold_orange)
+        ws.write(row_count, 4, 'DEPARTURE DATE ', style_bold_orange)
+        ws.write(row_count, 5, 'DEPARTURE CITY ', style_bold_orange)
+        ws.write(row_count, 6, 'ARRIVAL CITY ', style_bold_orange)
+        
+        # Mengisi data pada setiap baris & kolom Air Lines
+        for airline in self.pesawat_line:
+            row_count+=1
+            ws.write(row_count, 2, str(count), style_no_bold)
+            ws.write(row_count, 3,airline.partner_id.name, style_no_bold)
+            ws.write(row_count, 4,airline.tanggal_berangkat, style_date)
+            ws.write(row_count, 5,airline.kota_asal, style_no_bold)
+            ws.write(row_count, 6,airline.kota_tujuan, style_no_bold)
+            count+=1
+        
         # Menyimpan data di field data_file
         workbook.close()        
         out = base64.encodestring(file_data.getvalue())
@@ -247,19 +264,6 @@ class paket_peserta_line(models.Model):
     jenis_kelamin = fields.Selection([('pria', 'Man'), ('wanita', 'Woman')], string='Gender')
     tipe_kamar = fields.Selection([('d', 'Double'), ('t', 'Triple'), ('q', 'Quad')], string='Room Type')
 
-# class jamaah_report_wizard(models.TransientModel):
-#     _name = "jamaah.report.wizard"
-#     _description = 'Jamaah Report Wizard'
-
-#     name = fields.Char(string='Name', default="JAMAAH LIST")
-#     product_type = fields.Selection(
-#         [("all","All"),
-#         ("service","Service"),
-#         ("product","Product"),
-#         ("consu","Consumanble")],
-#         string='Product Type')
-#     sale_ok = fields.Boolean(string='Can be Sold')
-#     purchase_ok = fields.Boolean(string='Can be Purchase')
     
 
     

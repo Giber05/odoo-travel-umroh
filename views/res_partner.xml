@@ -26,6 +26,7 @@
                         <field name="tanggal_lahir"/>
                         <field name="gol_darah"/>
                         <field name="status_nikah"/>
+                        <field name="mahram"/>
                         <field name="pendidikan"/>
                     </group>
                 </div>

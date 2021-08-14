@@ -44,19 +44,6 @@ class sale_order(models.Model):
                 name: line[name]for name in line._cache
             })
             self.order_line = line
-            # res['value'] = {'order_line':[vals]}
-
-            ### Manual - Nilai di set secara manual ###
- 
-            # res['value'] = {
-            #     'order_line': [{
-            #         'product_id': pp.product_id.id,
-            #         'name':  pp.product_id.partner_ref,
-            #         'product_uom_qty': 1,
-            #         'product_uom': pp.product_id.uom_id.id,
-            #         'price_unit': pp.product_id.lst_price
-            #     }]
-            # }
             return res
 
 

@@ -46,6 +46,12 @@ class ResPartner(models.Model):
         compute_sudo = True,
     )
 
+    mahram = fields.Many2one(
+        comodel_name='res.partner',
+        string='Mahram',
+        domain=[("status_nikah", "=", "kawin")],
+    )
+
     @api.depends('tanggal_lahir')
     def _compute_age(self):
         for o in self:
