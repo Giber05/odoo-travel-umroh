@@ -62,26 +62,12 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                    <!-- <tr >
-                                        <td><span t-field="doc.name"/></td>
-                                        <td><span t-field="doc.invoice_ids.invoice_payments_widget.date"/></td>
-                                        <td><span t-field="ol.price_subtotal"/></td>
-                                    </tr> -->
                                 <t t-foreach="doc.invoice_ids" t-as="ol">
                                     <tr >
                                         <td><span t-field="ol.journal_id.type"/></td>
                                         <td><span t-field="ol.invoice_date"/></td>
                                         <td><span t-field="ol.amount_total_signed"/></td>
                                     </tr>
-                                    <!-- <t t-if="ol.product_id.product_tmpl_id.bom_count>0">
-                                        <t t-foreach="ol.product_id.product_tmpl_id.bom_ids.bom_line_ids" t-as="line">
-                                            <tr >
-                                                <td><span t-field="line.product_id.name"/></td>
-                                                <td><span t-field="line.product_qty"/></td>
-                                                <td><span t-field="line.product_uom_id.name"/></td>
-                                            </tr>
-                                        </t>
-                                    </t> -->
                                 </t>
                             </tbody>
                         </table>
